@@ -39,10 +39,10 @@ namespace BankBoxBTGTest.Interface.Implementation
         {
             if (client.Balance < value) throw new InsufficientMoneyNotesException("Insufficient balance");
 
-            if (!ValidateValue(value)) throw new InsufficientMoneyNotesException("Value Not Valid: should be more than $10 and less than Bank Box Limit");
+            if (!ValidateValue(value)) throw new InvalidValueException($"Value Not Valid: ${value}",BankBoxMoneyReserve.ToArray());
             
             decimal partialValue = value;
-            List<MoneyNote> withdrawnPackage = new List<MoneyNote>();
+            List<MoneyNote> withdrawnPackage = new();
 
             foreach (var moneyNotes in BankBoxMoneyReserve.OrderByDescending(m=>m.Value))
             {
@@ -63,15 +63,9 @@ namespace BankBoxBTGTest.Interface.Implementation
            
             if (withdrawnPackage.Count() == 0) throw new InsufficientMoneyNotesException("We don’t have enough notes to your request");
 
-            Console.WriteLine("here is your money");
-            Console.WriteLine();
-
+           
             withdrawnPackage.ForEach(moneyNote =>
             {
-                Console.WriteLine();
-                Console.WriteLine($"Value: ${moneyNote.Value}");
-                Console.WriteLine($"NotesQuantity: {moneyNote.Quantity}");
-                Console.WriteLine();
                 RegisterMoneyNotes(new MoneyNote(moneyNote.Value, moneyNote.Quantity * -1));
             });
 

@@ -52,7 +52,17 @@ while (!exit)
 
             decimal.TryParse(typedValue, out var parsedTypedValue);
 
-            BankBoxInService.Withdrawn(parsedTypedValue, client);
+            var money = BankBoxInService.Withdrawn(parsedTypedValue, client);
+            Console.WriteLine("here is your money");
+            Console.WriteLine();
+
+            money.ForEach(x =>
+            {
+                Console.WriteLine();
+                Console.WriteLine($"Value: ${x.Value}");
+                Console.WriteLine($"NotesQuantity: {x.Quantity}");
+                Console.WriteLine();
+            });
 
             Console.WriteLine("Please, take your money");
             Console.WriteLine("Thank you for using our service");
