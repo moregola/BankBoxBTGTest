@@ -1,0 +1,195 @@
+﻿// Questão 1 –
+// Utilizei C# somente a proto linguagem e somente tipos primitivos, sem auxilio de bibliotecas como List e seus métodos de organização de listas.
+// Também não utilizei linq mas todos os métodos poderiam ser reescritos economizando linhas  código.
+// Para não reescrever o como controlar o tamanho de um array que se inicia com 0 objetos a cada incremento, utilizei o método Push herdado das interfaces de coleções e enumerações do C#
+// Estrutura de Classes;
+// Models:
+class Client
+{
+    decimal balance;
+    long Id;
+}
+
+
+class MoneyNote
+{
+    decimal Value;
+    Int Quantity;
+}
+
+
+
+class BankBox
+{
+    private MoneyNote[] RegisteredMoneyNotes = new MoneyNote[0];
+    public BankBox(MoneyNote[] moneyNotes)
+    {
+        RegisteredMoneyNotes = moneyNotes;
+    }
+
+    public MoneyNote[] Withdrawn(decimal value, Client client)
+    {
+        if (client.balance < value) throw new InsufficientMoneyNotesException(“Insufficient balance,”);
+
+        if (!ValidateValue(value)) throw new InsufficientMoneyNotesException(“Invalid Value,”);
+        decimal partialValue = value;
+        MoneyNote[] withdrawnPackage = new MoneyNote[0];
+        foreach (var moneyNotes in RegisteredMoneyNotes)
+        {
+            if (moneyNotes.Value > partialValue)
+            {
+                var clientMoney = new MoneyNote()
+                {
+                    Value = moneyNotes.Value,
+                    Quantity = moneyNotes.Value / partialValue;
+                }
+
+                if (clientMoney.Quantity > RegisteredMoneyNotes.Quantity) return;
+            }
+            else
+            {
+                partialValue = partialValue – money.Value* money.Quantity;
+                withdrawnPackage.Push(clientMoney);
+                RegisterMoneyNotes(money);
+
+            }
+            if (partialValue == 0.0M) break;
+        }
+
+        if (withdrawnPackage.lenght === 0) throw new InsufficientMoneyNotesException(“We don’t have enough notes to your request”);
+        return withdrawnPackage;
+    };
+
+    void RegisterMoneyNotes(MoneyNote note)
+    {
+
+        foreach (var moneyNotes in RegisteredMoneyNotes)
+        {
+            if (moneyNotes.Value == note.Value)
+            {
+                RegisteredMoneyNotes.Remove(moneyNotes);
+                note.Quantity += moneyNotes.Quantity;
+                RegisteredMoneyNotes.Push(note);
+                Break;
+            }
+        }
+    }
+
+    decimal GetTotalBankBoxBalance()
+    {
+        string errorMessage = “Insufficient balance in this machine - Go to next one”;
+
+        if (RegisteredMoneyNotes.length == 0) throw new NotBalanceException(errorMessage)
+
+
+        decimal totalBankBoxMoney = 0.0M;
+        foreach (var moneyNotes in RegisteredMoneyNotes)
+        {
+            totalBankBoxMoney = totalBankBoxMoney + (moneyNotes.Value * moneyNotes.Quantity);
+        }
+
+        if (totalBankBoxMoney == 0.0M) throw new NotBalanceException(errorMessage)
+
+
+        return totalBankBoxMoney;
+    }
+
+    private bool ValidateValue(decimal value)
+    {
+        bool validationResult = false;
+
+        Foreach(var moneyNotes in BankBoxInService.RegisteredMoneyNotes)
+
+        {
+            totalBankBoxMoney = totalBankBoxMoney + (moneyNotes.Value * moneyNotes.Quantity);
+            validationResult = (value % moneynotes.Value == 0)
+
+            if (validationResult) break;
+        }
+        decimal totalBankBoxMoney = GetTotalBankBoxBalance();
+        return validationResult && (totalBankBoxMoney >= value);
+    };
+
+}
+
+class BankService
+{
+    public BankBox BankBoxInService = new BankBox();
+
+    public MoneyNote[] Withdrawn(decimal value, Client client)
+    {
+        return BankBoxInService.Withdrawn(value, client);
+    }
+
+    
+    public void ExitMoney(MoneyNote[] requestedNotes)
+    {
+        //start the process to remove the requested notes from the box probably send a integrated command to the machine control
+    }
+
+
+    public void startApplication()
+    {
+
+        try
+        {
+            if (BankBoxInService.GetTotalBankBoxBalance() == 0.0M)
+            {
+                throw new NotBalanceException(“Insufficient balance in this machine - Go to next one”);
+            }
+
+            console.print(“Welcome to our Bank Service”);
+            console.print(“Please, insert your card”);
+
+            var client = new ClientService(console.read()).GetClient();
+            console.print(“Please, insert your password”);
+            // Here we could have a database connection to get the client data e compare with password
+
+            console.print(“Please, select the value you want to withdraw”);
+
+            var typedValue = console.read();
+
+            ExitMoney(BankBoxInService.Withdrawn(typedValue, client));
+            console.print(“Please, take your money”);
+            console.print(“Thank you for using our service”);
+        }
+        catch (NotBalanceException ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+        catch (InsufficientMoneyNotesException ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+        catch (DefaultException ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+    }
+}
+
+class ClientService
+{
+    private Client Client;
+    public ClientService(int id)
+    {
+        Client = new Client();
+        Client.Id = id;
+        Client.Balance = 1000.0M;
+    }
+
+    public Client GetClient()
+    {
+        // Here we could have a database connection to get the client data
+        return Client;
+    }
+}
+
+
+// Exceptions:
+
+
+
+
+
+
