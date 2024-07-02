@@ -1,10 +1,5 @@
 ﻿using BankBoxBTGTest.ExceptionClass;
 using BankBoxBTGTest.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BankBoxBTGTest.Interface.Implementation
 {
@@ -39,16 +34,16 @@ namespace BankBoxBTGTest.Interface.Implementation
         {
             if (client.Balance < value) throw new InsufficientMoneyNotesException("Insufficient balance");
 
-            if (!ValidateValue(value)) throw new InvalidValueException($"Value Not Valid: ${value}",BankBoxMoneyReserve.ToArray());
-            
+            if (!ValidateValue(value)) throw new InvalidValueException($"Value Not Valid: ${value}", BankBoxMoneyReserve.ToArray());
+
             decimal partialValue = value;
             List<MoneyNote> withdrawnPackage = new();
 
-            foreach (var moneyNotes in BankBoxMoneyReserve.OrderByDescending(m=>m.Value))
+            foreach (var moneyNotes in BankBoxMoneyReserve.OrderByDescending(m => m.Value))
             {
                 if (partialValue != 0.0M
                     && moneyNotes.Value <= partialValue)
-                    
+
                 {
                     var notesQuantity = (int)(partialValue / moneyNotes.Value);
                     var clientMoney = new MoneyNote(moneyNotes.Value, notesQuantity);
@@ -60,10 +55,10 @@ namespace BankBoxBTGTest.Interface.Implementation
                 }
                 if (partialValue == 0.0M) break;
             }
-           
+
             if (withdrawnPackage.Count() == 0) throw new InsufficientMoneyNotesException("We don’t have enough notes to your request");
 
-           
+
             withdrawnPackage.ForEach(moneyNote =>
             {
                 RegisterMoneyNotes(new MoneyNote(moneyNote.Value, moneyNote.Quantity * -1));
@@ -75,7 +70,7 @@ namespace BankBoxBTGTest.Interface.Implementation
         {
             bool validationResult = false;
             decimal totalBankBoxMoney = GetTotalBankBoxBalance();
-            
+
             if (totalBankBoxMoney == 0) throw new NotBalanceException("Not enough money");
 
             foreach (var moneyNotes in BankBoxMoneyReserve)
@@ -85,6 +80,6 @@ namespace BankBoxBTGTest.Interface.Implementation
             }
             return validationResult && (totalBankBoxMoney >= value);
         }
-      
+
     }
 }

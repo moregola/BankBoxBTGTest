@@ -45,7 +45,6 @@ while (!exit)
             // Here we could have method to get the client data e compare with password
             client = new ClientService(client).GetClient(parsedClientId, password);
 
-
             Console.WriteLine("Please, select the value you want to withdraw");
 
             var typedValue = Console.ReadLine();
@@ -84,7 +83,7 @@ while (!exit)
         else if (choice == "3")
         {
             //to execute correctly we should implement a Verification to validate if the person choosing this is a bank worker
-            exit=true;
+            exit = true;
         }
         else
         {
