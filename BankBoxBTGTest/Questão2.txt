@@ -1,0 +1,8 @@
+﻿
+Query criada para filtrar as colunas
+
+
+SELECT ReportsTo, Count(id)as 'Employes Under', avg(Age) as 'Avarage Age' FROM "table"
+WHERE ReportsTo != null
+ORDER BY FirstName
+GROUP BY ReportsTo

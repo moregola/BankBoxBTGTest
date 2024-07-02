@@ -1,0 +1,22 @@
+﻿Criar query utilizando JOIN
+
+1 - Exibir placa e nome dos donos de todos os veículos
+
+
+SELECT Veiculo.Placa as 'Placa', Cliente.Nome as 'Nome' 
+FROM Cliente
+INNER JOIN Veiculo 
+	ON Cliente.cpf = Veiculo.Cliente_cpf
+
+
+2 - Exiba o endereço, a data de entrada e de saída  dos estacionamentos  do veículo de placa BTG-2022
+
+
+SELECT Patio.ender as 'Endereço', Estaciona.dtEntrada as 'Data de Entrada', Estaciona.dtSaída as 'Data de Saída' 
+FROM Estaciona
+INNER JOIN Patio
+	ON Patio.num = Estaciona.Patio_num
+WHERE Estaciona.Veiculo_Placa = 'BTG-2022'
+
+
+Como em ambas as queries devem retornar tanto coluna de uma tabela quanto da outra resolvi utilizar o inner join 
