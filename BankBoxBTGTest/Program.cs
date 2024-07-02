@@ -83,6 +83,7 @@ while (!exit)
         else if (choice == "3")
         {
             //to execute correctly we should implement a Verification to validate if the person choosing this is a bank worker
+            Console.WriteLine("Good Bye");
             exit = true;
         }
         else
